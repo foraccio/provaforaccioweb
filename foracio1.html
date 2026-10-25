@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F7F0D8">
+<meta name="description" content="Una guida semplice al Foracio, antico gioco di carte veneto: regole, prese, punteggio e strategia.">
+<title>Foracio — Un gioco di carte veneto</title>
+<style>
+:root{
+  --ivory:#F7F0D8; --gold:#EFCB13; --red:#C93632; --blue:#2588BD;
+  --green:#367342; --ink:#211E19; --paper:#fffaf0; --muted:#655f50;
+  --line:rgba(33,30,25,.28); --shadow:5px 5px 0 var(--ink);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;background:var(--ivory);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.6}
+a{color:inherit}
+.topline{height:9px;background:linear-gradient(90deg,var(--red) 0 25%,var(--gold) 25% 50%,var(--blue) 50% 75%,var(--green) 75%)}
+header{position:sticky;top:0;z-index:10;background:rgba(247,240,216,.96);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink)}
+.nav{max-width:1120px;margin:auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-weight:bold;letter-spacing:.08em;text-decoration:none;font-size:1.05rem;text-transform:uppercase;white-space:nowrap}
+.brand span{display:inline-block;background:var(--red);color:var(--ivory);padding:1px 7px;margin-right:7px;transform:rotate(-3deg)}
+nav{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}
+nav a{font:600 .82rem/1.2 Arial,sans-serif;text-decoration:none;text-transform:uppercase;letter-spacing:.04em}
+nav a:hover{color:var(--red);text-decoration:underline;text-underline-offset:5px}
+main{max-width:1120px;margin:auto;padding:0 24px}
+.hero{min-height:590px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:50px;padding:72px 0 78px}
+.kicker{font:700 .75rem Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(3.4rem,8vw,7rem);line-height:.88;letter-spacing:-.065em;margin:20px 0 26px;max-width:650px}
+h1 em{font-weight:400;color:var(--red)}
+.lead{font-size:1.2rem;max-width:560px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.button{display:inline-block;padding:12px 18px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);font:700 .85rem Arial,sans-serif;text-decoration:none;text-transform:uppercase;letter-spacing:.04em;transition:transform .15s,box-shadow .15s}
+.button:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.button.primary{background:var(--gold)}
+.hero-art{position:relative;min-height:400px;display:grid;place-items:center}
+.frame{width:min(100%,390px);aspect-ratio: .73;border:3px solid var(--ink);padding:12px;box-shadow:var(--shadow);background:var(--paper);transform:rotate(2deg);position:relative}
+.frame-inner{height:100%;border:1px solid var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:22px 14px;background:radial-gradient(circle at 50% 40%,#fffdf5 0 28%,transparent 29%),var(--ivory)}
+.sun{width:140px;height:140px;border-radius:50%;border:7px double var(--ink);background:var(--gold);display:grid;place-items:center;position:relative}
+.sun:before,.sun:after{content:"";position:absolute;inset:-15px;border:2px dashed var(--ink);border-radius:50%}
+.sun:after{inset:14px;border:3px solid var(--red)}
+.sun span{font-size:3.8rem;color:var(--blue);text-shadow:2px 2px var(--ink);z-index:1}
+.art-label{text-align:center;font-size:clamp(1.2rem,3vw,1.8rem);font-weight:bold;line-height:1.05;text-transform:uppercase}
+.art-label small{display:block;font-size:.7rem;letter-spacing:.2em;margin-top:12px}
+.card-row{display:flex;gap:7px}
+.mini-card{width:55px;height:78px;border:2px solid var(--ink);border-radius:5px;background:var(--paper);display:grid;place-items:center;font-size:2rem;box-shadow:2px 2px 0 var(--ink)}
+.mini-card:nth-child(1){color:var(--red);transform:rotate(-8deg)}
+.mini-card:nth-child(2){color:var(--blue);transform:translateY(-8px)}
+.mini-card:nth-child(3){color:var(--green);transform:rotate(8deg)}
+.stamp{position:absolute;right:-13px;bottom:27px;background:var(--red);color:var(--ivory);border:2px solid var(--ink);padding:12px 15px;font:700 .76rem Arial,sans-serif;text-transform:uppercase;transform:rotate(-8deg);box-shadow:3px 3px 0 var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink);background:var(--gold);box-shadow:var(--shadow);margin:0 0 100px}
+.stat{padding:20px 24px;border-right:1px solid var(--ink)}
+.stat:last-child{border-right:0}
+.stat strong{display:block;font-size:2.2rem;line-height:1}
+.stat span{font:700 .75rem Arial,sans-serif;letter-spacing:.07em;text-transform:uppercase}
+section{padding:30px 0 88px}
+.section-head{display:grid;grid-template-columns:.7fr 1.3fr;gap:30px;align-items:start;margin-bottom:35px}
+.eyebrow{font:700 .72rem Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+h2{font-size:clamp(2.2rem,5vw,4rem);line-height:.98;letter-spacing:-.04em;margin-bottom:0}
+.section-intro{font-size:1.1rem;max-width:650px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.panel{padding:23px;border:2px solid var(--ink);background:var(--paper);box-shadow:4px 4px 0 var(--ink)}
+.panel .num{font-size:2.4rem;font-weight:bold;color:var(--red);line-height:1;margin-bottom:18px}
+.panel h3{font-size:1.35rem;margin-bottom:8px}
+.panel p{margin-bottom:0;color:#39352c}
+.panel.blue{background:#e1f0f5}
+.panel.yellow{background:#fff4b8}
+.panel.red{background:#f7ded6}
+.steps{counter-reset:step;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.step{counter-increment:step;display:grid;grid-template-columns:52px 1fr;gap:16px;padding:20px 0;border-top:1px solid var(--line)}
+.step:before{content:counter(step,decimal-leading-zero);font:700 1.1rem Arial,sans-serif;color:var(--red)}
+.step h3{margin:0 0 4px;font-size:1.2rem}
+.step p{margin:0;color:#39352c}
+.callout{border-left:8px solid var(--blue);padding:20px 24px;background:#e1f0f5;margin:28px 0 0}
+.callout strong{font-size:1.15rem}
+.example{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;background:var(--ink);color:var(--ivory);padding:30px}
+.example h3{font-size:1.8rem;line-height:1.05;margin-bottom:12px}
+.cards-example{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.play-card{width:65px;height:95px;border:2px solid var(--ivory);border-radius:5px;background:var(--paper);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:5px;font-size:1.7rem;box-shadow:3px 3px 0 var(--red)}
+.play-card small{font:700 .65rem Arial,sans-serif;align-self:flex-start}
+.play-card.red{color:var(--red)} .play-card.blue{color:var(--blue)}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.score-box{border:2px solid var(--ink);padding:24px;background:var(--paper)}
+.score-box h3{font-size:1.4rem;border-bottom:2px solid var(--gold);padding-bottom:10px}
+.score-box ul{padding-left:20px;margin-bottom:0}
+.score-box li{padding:4px 0}
+.target{background:var(--red);color:var(--ivory);padding:25px;margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.target strong{font-size:3rem;line-height:1}
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tip{border-top:5px solid var(--green);padding:18px 0}
+.tip:nth-child(2){border-color:var(--blue)}.tip:nth-child(3){border-color:var(--red)}
+.tip h3{font-size:1.25rem;margin-bottom:7px}
+.tip p{margin-bottom:0}
+.glossary{display:grid;grid-template-columns:repeat(2,1fr);border-top:2px solid var(--ink)}
+.term{padding:18px 20px 18px 0;border-bottom:1px solid var(--line)}
+.term dt{font-size:1.2rem;font-weight:bold;color:var(--red)}
+.term dd{margin:4px 0 0;color:#39352c}
+footer{background:var(--ink);color:var(--ivory);padding:38px 24px}
+.footer-inner{max-width:1120px;margin:auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer p{margin:0;max-width:660px;font-size:.9rem;color:#e1d8c1}
+footer a{color:var(--gold)}
+@media(max-width:760px){
+ .nav{align-items:flex-start;flex-direction:column;padding:12px 18px}nav{gap:12px;justify-content:flex-start}nav a{font-size:.72rem}
+ main{padding:0 18px}.hero{grid-template-columns:1fr;padding:52px 0 58px;gap:30px}.hero-art{min-height:350px}
+ .stats{margin-bottom:70px}.stat{padding:15px 10px}.stat strong{font-size:1.8rem}.stat span{font-size:.65rem}
+ .section-head{grid-template-columns:1fr;gap:14px}.grid,.tips{grid-template-columns:1fr}.steps{grid-template-columns:1fr}
+ .example{grid-template-columns:1fr;padding:24px 18px}.score-grid{grid-template-columns:1fr}.glossary{grid-template-columns:1fr}
+ section{padding-bottom:65px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="topline"></div>
+<header>
+  <div class="nav">
+    <a class="brand" href="#inizio"><span>F</span>Foracio</a>
+    <nav aria-label="Navigazione principale">
+      <a href="#regole">Regole</a><a href="#prese">Le prese</a><a href="#punti">Punteggio</a><a href="#strategia">Strategia</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero" id="inizio">
+    <div>
+      <div class="kicker">Tradizione veneta · Gioco di coppia</div>
+      <h1>Carte in tavola.<br><em>Testa</em> in gioco.</h1>
+      <p class="lead">Il Foracio è un gioco di carte popolare veneto, fatto di memoria, calcolo e intesa con il proprio compagno. Qui trovi le regole essenziali per sederti al tavolo e cominciare.</p>
+      <div class="hero-actions"><a class="button primary" href="#regole">Impara a giocare ↓</a><a class="button" href="#punti">Come si fanno i punti</a></div>
+    </div>
+    <div class="hero-art" aria-label="Illustrazione decorativa ispirata alle carte tradizionali">
+      <div class="frame"><div class="frame-inner">
+        <div class="sun"><span>♠</span></div>
+        <div class="art-label">Il gioco<br>di una volta<small>Veneto · dal XVI secolo</small></div>
+        <div class="card-row"><div class="mini-card">♦</div><div class="mini-card">♣</div><div class="mini-card">♥</div></div>
+      </div></div>
+      <div class="stamp">Si gioca<br>in quattro</div>
+    </div>
+  </section>
+
+  <div class="stats" aria-label="Il Foracio in breve">
+    <div class="stat"><strong>4</strong><span>giocatori</span></div>
+    <div class="stat"><strong>2 × 2</strong><span>due coppie</span></div>
+    <div class="stat"><strong>71</strong><span>punti per vincere</span></div>
+  </div>
+
+  <section id="regole">
+    <div class="section-head"><div><div class="eyebrow">01 / Preparazione</div><h2>Prima di<br>cominciare.</h2></div><p class="section-intro">Il Foracio si gioca in quattro, a coppie. Sedetevi alternando compagni e avversari: la partita si vince insieme, ma ogni carta giocata può cambiare l'equilibrio della mano.</p></div>
+    <div class="grid">
+      <article class="panel yellow"><div class="num">01</div><h3>Il mazzo</h3><p>Si usa un mazzo da 52 carte trevisane, con quattro semi: coppe, denari, bastoni e spade. Ogni seme comprende asso, carte dal 2 al 10 e tre figure: fante, cavallo e re.</p></article>
+      <article class="panel blue"><div class="num">02</div><h3>Le coppie</h3><p>Si gioca in quattro, divisi in due squadre da due. I compagni siedono uno di fronte all'altro, con un avversario tra ciascun compagno e l'altro.</p></article>
+      <article class="panel red"><div class="num">03</div><h3>Le 13 carte</h3><p>Il mazziere distribuisce 13 carte a ogni giocatore, in senso antiorario: una alla volta per 13 giri, oppure in tre tornate da 5, 4 e 4 carte.</p></article>
+    </div>
+  </section>
+
+  <section id="prese">
+    <div class="section-head"><div><div class="eyebrow">02 / Il turno</div><h2>Gioca.<br>Somma. Prendi.</h2></div><p class="section-intro">Ogni carta vale da 1 a 13: l'asso vale 1, le carte numeriche mantengono il proprio valore e le figure valgono 11 (fante), 12 (cavallo) e 13 (re). Quando giochi, prova a raccogliere carte dal tavolo con lo stesso valore o con una somma corrispondente.</p></div>
+    <div class="steps">
+      <article class="step"><div><h3>Chi inizia</h3><p>Comincia il giocatore alla destra del mazziere. Si prosegue in senso antiorario, una carta scoperta per turno.</p></div></article>
+      <article class="step"><div><h3>Prendere una carta</h3><p>Se giochi un 6 e sul tavolo c'è un 6, puoi prendere entrambe le carte e metterle coperte nel tuo mazzetto delle prese.</p></div></article>
+      <article class="step"><div><h3>Fare una somma</h3><p>Una carta può prendere più carte se la loro somma corrisponde al suo valore: per esempio, un 10 può prendere un 6 e un 4.</p></div></article>
+      <article class="step"><div><h3>Le figure</h3><p>Re, cavallo e fante possono prendere soltanto un'altra figura: non raccolgono combinazioni di carte numeriche.</p></div></article>
+    </div>
+    <div class="example">
+      <div><div class="eyebrow" style="color:var(--gold)">Esempio di presa</div><h3>Un 10 incontra<br>un 6 e un 4.</h3><p>La somma è 10: giocando il 10, puoi raccogliere entrambe le carte sul tavolo insieme alla tua.</p></div>
+      <div class="cards-example" aria-label="Esempio illustrato: 10 prende 6 e 4"><div class="play-card red"><small>10</small><span>♦</span><small>10</small></div><div class="play-card blue"><small>6</small><span>♠</span><small>6</small></div><div class="play-card"><small>4</small><span>♣</span><small>4</small></div></div>
+    </div>
+    <div class="callout"><strong>L'asso pigliatutto.</strong><br>Se sul tavolo ci sono carte, l'asso raccoglie tutte le carte presenti. Questa presa non vale come scopa. Se il tavolo è vuoto, l'asso raccoglie soltanto sé stesso: per questo non possono restare assi sul tavolo.</div>
+    <div class="callout" style="border-color:var(--red);background:#f7ded6"><strong>Attenzione alle combinazioni.</strong><br>Se una carta può prendere in modi diversi, chi la gioca sceglie quale combinazione raccogliere. Alla fine della mano, le carte rimaste sul tavolo vanno a chi ha effettuato l'ultima presa.</div>
+  </section>
+
+  <section id="punti">
+    <div class="section-head"><div><div class="eyebrow">03 / Il punteggio</div><h2>Ogni presa<br>può contare.</h2></div><p class="section-intro">Il punteggio si divide in punti di mano, ottenuti dalle carte raccolte, e punti di gioco, ottenuti con combinazioni particolari. Le coppie sommano i punti di tutte le mani.</p></div>
+    <div class="score-grid">
+      <div class="score-box"><h3>Punti di mano</h3><ul><li><b>2 di spade</b> — 1 punto, il primo onore.</li><li><b>Fante di spade</b> — 1 punto, la “vecchia”.</li><li><b>10 di denari</b> — 1 punto, il “10 bello”.</li><li><b>Almeno 7 spade</b> — 1 punto.</li><li><b>Più carte</b> — 2 punti per 27 carte o più; 26 se la coppia non aveva il mazziere.</li></ul></div>
+      <div class="score-box"><h3>Punti di gioco</h3><ul><li><b>Napoli</b> — una scala dello stesso seme che parte dall'asso e prosegue in ordine. Almeno asso, 2 e 3 valgono 3 punti; la scala può arrivare fino a 13.</li><li><b>Scopa</b> — ogni scopa vale tanti punti quante sono le carte prese con quella scopa: da 2 punti (scopa di due) fino a 13 (scopa di re). Si segnala mettendo la carta giocata scoperta e perpendicolare nel mazzetto delle prese.</li></ul></div>
+    </div>
+    <div class="target"><div><div class="eyebrow" style="color:var(--gold)">Obiettivo della partita</div><b>La coppia che arriva prima al traguardo vince.</b></div><strong>71<br><span style="font-size:1rem">punti</span></strong></div>
+    <p style="margin-top:18px;color:var(--muted);font-size:.95rem">Nota: la voce di Wikipedia indica anche un premio extra di 18 punti quando una coppia conquista tutti i 6 punti di mano, per un totale di 24 punti.</p>
+  </section>
+
+  <section id="strategia">
+    <div class="section-head"><div><div class="eyebrow">04 / Un po' di mestiere</div><h2>Gioca con<br>la testa.</h2></div><p class="section-intro">La fortuna c'è, ma ricordare le carte e osservare il tavolo aiuta a scegliere meglio. E non dimenticare: il tuo compagno gioca per lo stesso obiettivo.</p></div>
+    <div class="tips">
+      <article class="tip"><h3>Non regalare una scopa</h3><p>Quando puoi, evita di lasciare sul tavolo combinazioni facili da raccogliere, soprattutto un valore totale pari o inferiore a 10.</p></article>
+      <article class="tip"><h3>Occhio alle carte importanti</h3><p>Tieni a mente gli onori, le spade e le carte utili a costruire una Napoli: possono fare la differenza nel punteggio finale.</p></article>
+      <article class="tip"><h3>Intesa, ma con prudenza</h3><p>In alcune partite sono ammessi segnali tra compagni. Ricorda però che anche gli avversari possono interpretarli.</p></article>
+    </div>
+  </section>
+
+  <section id="glossario">
+    <div class="section-head"><div><div class="eyebrow">05 / Piccolo dizionario</div><h2>Parole da<br>tavolo.</h2></div><p class="section-intro">I termini del Foracio fanno parte del suo fascino. Ecco quelli che è utile conoscere prima della prima mano.</p></div>
+    <dl class="glossary">
+      <div class="term"><dt>Onori</dt><dd>Le tre carte che danno punti individuali: 2 di spade, fante di spade e 10 di denari.</dd></div>
+      <div class="term"><dt>Napoli</dt><dd>Una scala crescente dello stesso seme, a partire dall'asso; vale tanti punti quante sono le carte in scala.</dd></div>
+      <div class="term"><dt>Scopa</dt><dd>Una presa che porta via tutte le carte presenti sul tavolo.</dd></div>
+      <div class="term"><dt>Giogiata</dt><dd>Il nome dato a un errore di distrazione commesso durante il gioco.</dd></div>
+    </dl>
+  </section>
+</main>
+<footer>
+  <div class="footer-inner">
+    <div><b style="font-size:1.35rem">Foracio</b><p>Un gioco veneto da riscoprire, una mano alla volta.</p></div>
+    <p>Guida introduttiva basata sulla voce <a href="https://it.wikipedia.org/wiki/Foracio" target="_blank" rel="noopener noreferrer">Foracio su Wikipedia</a>. Le regole locali possono presentare differenze: prima di giocare, concordatele al tavolo.</p>
+  </div>
+</footer>
+</body>
+</html>

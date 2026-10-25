@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Gioco del Foraccio - Regole, Storia e Calcolatore Punteggi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'perg-bg': '#F7F4EA',
+                        'blu-oltremare': '#1B4F91',
+                        'rosso-cremisi': '#C93B2B',
+                        'giallo-senape': '#F4C430',
+                        'verde-foglia': '#2E6F40',
+                        'nero-inchiostro': '#222222',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'retro-sm': '2px 2px 0px 0px #222222',
+                        'retro': '4px 4px 0px 0px #222222',
+                        'retro-lg': '6px 6px 0px 0px #222222',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F7F4EA;
+            color: #222222;
+            font-family: 'Inter', sans-serif;
+            background-image: radial-gradient(#222222 0.45px, transparent 0.45px);
+            background-size: 24px 24px;
+            background-color: #F7F4EA;
+        }
+        .retro-border {
+            border: 2px solid #222222;
+        }
+        .retro-border-thick {
+            border: 3px solid #222222;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F7F4EA;
+            border-left: 2px solid #222222;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1B4F91;
+            border: 2px solid #222222;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-giallo-senape selection:text-nero-inchiostro">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="bg-blu-oltremare text-perg-bg retro-border-thick border-t-0 border-x-0 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="bg-giallo-senape text-nero-inchiostro font-bold p-2 rounded-md retro-border shadow-retro-sm text-2xl flex items-center justify-center w-11 h-11 font-serif">
+                    ♠
+                </div>
+                <div>
+                    <h1 class="font-serif text-2xl sm:text-3xl font-black tracking-wider leading-none text-giallo-senape">FORACCIO</h1>
+                    <p class="text-[10px] sm:text-xs uppercase tracking-widest text-blue-200">Foracio · Scarabocio · Tradizione Veneta</p>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex flex-wrap gap-2 text-xs sm:text-sm font-bold">
+                <a href="#storia" class="px-3 py-1.5 rounded bg-perg-bg text-nero-inchiostro retro-border hover:bg-giallo-senape transition shadow-retro-sm">Storia</a>
+                <a href="#preparazione" class="px-3 py-1.5 rounded bg-perg-bg text-nero-inchiostro retro-border hover:bg-giallo-senape transition shadow-retro-sm">Preparazione</a>
+                <a href="#svolgimento" class="px-3 py-1.5 rounded bg-perg-bg text-nero-inchiostro retro-border hover:bg-giallo-senape transition shadow-retro-sm">Svolgimento</a>
+                <a href="#punteggi" class="px-3 py-1.5 rounded bg-perg-bg text-nero-inchiostro retro-border hover:bg-giallo-senape transition shadow-retro-sm">Punteggi</a>
+                <a href="#varianti" class="px-3 py-1.5 rounded bg-perg-bg text-nero-inchiostro retro-border hover:bg-giallo-senape transition shadow-retro-sm">Varianti</a>
+                <a href="#calcolatore" class="px-3 py-1.5 rounded bg-rosso-cremisi text-white retro-border hover:bg-red-700 transition shadow-retro-sm">Calcolatore</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="max-w-6xl mx-auto px-4 pt-8 pb-4 w-full">
+        <div class="bg-perg-bg rounded-xl p-6 sm:p-10 retro-border-thick shadow-retro-lg relative overflow-hidden flex flex-col md:flex-row items-center gap-8">
+            
+            <div class="flex-1 relative z-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-rosso-cremisi text-white text-xs font-bold uppercase tracking-wider rounded retro-border mb-4 shadow-retro-sm">
+                    <span>📜</span> Gioco di Carte Storico (XVI Secolo)
+                </div>
+                <h2 class="font-serif text-4xl sm:text-6xl font-black text-blu-oltremare mb-4 leading-tight">
+                    IL <span class="underline decoration-giallo-senape decoration-8">FORACCIO</span>
+                </h2>
+                <p class="text-base sm:text-lg text-nero-inchiostro leading-relaxed mb-6 font-medium">
+                    Noto anche come <strong>Foracio</strong> o <strong>Scarabocio</strong>, è il grande gioco di carte della tradizione veneta. Giocato con il mazzo da 52 carte trevisane, unisce memoria, strategia di squadra e la spettacolare meccanica dell'<em>Asso Pigliatutto</em>.
+                </p>
+                <div class="flex flex-wrap gap-4 items-center">
+                    <a href="#calcolatore" class="inline-flex items-center gap-2 bg-giallo-senape text-nero-inchiostro font-extrabold px-6 py-3 rounded-lg retro-border shadow-retro hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-retro-sm transition">
+                        <span>🧮</span> Calcolatore Punteggio Mano
+                    </a>
+                    <a href="#punteggi" class="inline-flex items-center gap-2 bg-white text-blu-oltremare font-bold px-6 py-3 rounded-lg retro-border shadow-retro hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-retro-sm transition">
+                        Scopri gli Onori (24pt)
+                    </a>
+                </div>
+            </div>
+
+            <!-- TABELLONE STILIZZATO CARTA TREVISANA -->
+            <div class="w-full md:w-72 flex-shrink-0 flex justify-center">
+                <div class="w-64 bg-white p-4 rounded-xl retro-border-thick shadow-retro-lg text-center relative transform rotate-1 hover:rotate-0 transition duration-300">
+                    <div class="border-2 border-nero-inchiostro p-3 rounded-lg bg-perg-bg flex flex-col items-center">
+                        <div class="flex justify-between w-full text-xs font-serif font-black text-rosso-cremisi">
+                            <span>A ♠</span>
+                            <span>1500</span>
+                        </div>
+                        <div class="my-4 text-5xl">🗡️</div>
+                        <div class="bg-giallo-senape text-nero-inchiostro font-serif font-black px-3 py-2 rounded retro-border text-xs leading-tight uppercase shadow-retro-sm mb-2">
+                            "NON TI FIDAR DI ME SE IL CUOR TI MANCA"
+                        </div>
+                        <p class="text-[11px] text-gray-700 italic">Mazzo Trevisano • 52 Carte</p>
+                        <div class="flex justify-between w-full text-xs font-serif font-black text-blu-oltremare mt-2">
+                            <span>VENETO</span>
+                            <span>♠ A</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- STORIA E ORIGINI -->
+    <section id="storia" class="max-w-6xl mx-auto px-4 py-6 w-full">
+        <div class="bg-white rounded-xl p-6 sm:p-8 retro-border-thick shadow-retro-lg">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-3xl p-2 bg-giallo-senape rounded retro-border">🏛️</span>
+                <div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-black text-blu-oltremare">Storia e Origini</h2>
+                    <p class="text-xs sm:text-sm text-gray-600">Le radici nel XVI secolo e il significato del nome</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm sm:text-base leading-relaxed text-nero-inchiostro">
+                <div class="bg-perg-bg p-5 rounded-lg retro-border">
+                    <h3 class="font-serif font-bold text-lg text-rosso-cremisi mb-2">L'Origine del Nome</h3>
+                    <p>
+                        Il nome <strong>Foraccio</strong> (scritto comunemente anche con una sola C, <em>Foracio</em>, oppure chiamato <em>Scarabocio</em>) deriva dal verbo dialettale veneto <strong>"foraciare"</strong>. Questa parola indica l'atto d'impeto di fare piazza pulita, ossia raccogliere ed arraffare in un solo colpo tutte le carte presenti sul tavolo da gioco tramite l'uso dell'Asso.
+                    </p>
+                </div>
+                <div class="bg-perg-bg p-5 rounded-lg retro-border">
+                    <h3 class="font-serif font-bold text-lg text-blu-oltremare mb-2">Tradizione Secolare</h3>
+                    <p>
+                        Le prime testimonianze del Foraccio risalgono al <strong>1500</strong> nella Repubblica di Venezia e nelle terre trevisane. Si è sviluppato come evoluzione articolata e più complessa dei classici giochi di presa (come la Scopa e il Scopa d'Assi), diventando un caposaldo delle osterie e dei circoli ricreativi veneti per secoli.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREPARAZIONE E CARTE -->
+    <section id="preparazione" class="max-w-6xl mx-auto px-4 py-6 w-full">
+        <div class="bg-white rounded-xl p-6 sm:p-8 retro-border-thick shadow-retro-lg">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-3xl p-2 bg-rosso-cremisi text-white rounded retro-border">🎴</span>
+                <div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-black text-blu-oltremare">Preparazione e Mazzo di Carte</h2>
+                    <p class="text-xs sm:text-sm text-gray-600">4 Giocatori • 2 Coppie • 52 Carte Trevisane</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-perg-bg p-5 rounded-lg retro-border shadow-retro flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs uppercase tracking-bold font-bold text-rosso-cremisi mb-1">Formazione</div>
+                        <h3 class="font-serif font-bold text-xl text-blu-oltremare mb-2">4 Giocatori a Coppie</h3>
+                        <p class="text-sm text-gray-700">Si gioca tassativamente in quattro persone divise in due squadre da due. I compagni di squadra siedono uno di fronte all'altro.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gray-300 text-xs font-semibold text-gray-600">Coppia A vs Coppia B</div>
+                </div>
+
+                <div class="bg-perg-bg p-5 rounded-lg retro-border shadow-retro flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs uppercase tracking-bold font-bold text-rosso-cremisi mb-1">Mazzo Completo</div>
+                        <h3 class="font-serif font-bold text-xl text-blu-oltremare mb-2">52 Carte Trevisane</h3>
+                        <p class="text-sm text-gray-700">Si utilizza il mazzo trevisano da 52 carte (con 8, 9, 10 e figure) nei 4 semi classici: <strong>Coppe, Denari, Bastoni e Spade</strong>.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gray-300 text-xs font-semibold text-gray-600">13 carte per ciascun seme</div>
+                </div>
+
+                <div class="bg-perg-bg p-5 rounded-lg retro-border shadow-retro flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs uppercase tracking-bold font-bold text-rosso-cremisi mb-1">Distribuzione</div>
+                        <h3 class="font-serif font-bold text-xl text-blu-oltremare mb-2">13 Carte a Testa</h3>
+                        <p class="text-sm text-gray-700">Vengono distribuite <strong>tutte le 52 carte</strong> (13 ad ogni giocatore). Nessuna carta viene scoperta sul tavolo a inizio mano!</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gray-300 text-xs font-semibold text-gray-600">Partita a carte chiare fin da subito</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SVOLGIMENTO DEL GIOCO -->
+    <section id="svolgimento" class="max-w-6xl mx-auto px-4 py-6 w-full">
+        <div class="bg-white rounded-xl p-6 sm:p-8 retro-border-thick shadow-retro-lg">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-3xl p-2 bg-verde-foglia text-white rounded retro-border">🔄</span>
+                <div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-black text-blu-oltremare">Svolgimento e Regole di Presa</h2>
+                    <p class="text-xs sm:text-sm text-gray-600">Meccanica di gioco, valori e penalità per la "Giogiata"</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-perg-bg p-5 rounded-lg retro-border">
+                    <h3 class="font-serif font-bold text-lg text-blu-oltremare mb-2">Valore delle Carte</h3>
+                    <p class="text-sm text-gray-700 leading-relaxed">
+                        Le carte hanno un valore nominale progressivo da <strong>1 a 13</strong> per ogni seme:
+                        <br><br>
+                        • <strong>Asso</strong> = 1<br>
+                        • <strong>Numeri (2-10)</strong> = Valore nominale<br>
+                        • <strong>Fante</strong> = 11 | <strong>Cavaliere</strong> = 12 | <strong>Re</strong> = 13
+                    </p>
+                </div>
+
+                <div class="bg-perg-bg p-5 rounded-lg retro-border">
+                    <h3 class="font-serif font-bold text-lg text-blu-oltremare mb-2">Regola delle Figure</h3>
+                    <p class="text-sm text-gray-700 leading-relaxed">
+                        A differenza dei numeri, <strong>le figure (Fante, Cavaliere, Re) possono prendere solo una figura dello stesso identico valore</strong> in tavola (es. Fante prende solo Fante, Re prende solo Re). Non possono catturare somme di numeri.
+                    </p>
+                </div>
+
+                <div class="bg-perg-bg p-5 rounded-lg retro-border border-l-4 border-l-rosso-cremisi">
+                    <h3 class="font-serif font-bold text-lg text-rosso-cremisi mb-2">L'Asso & la "Giogiata"</h3>
+                    <p class="text-sm text-gray-700 leading-relaxed">
+                        • <strong>Asso Pigliatutto:</strong> Giocare un Asso permette di prendere tutte le carte in tavola (ma <em>non conta mai come Scopa</em>).<br>
+                        • <strong>Giogiata:</strong> Commettere un errore di presa (non prendere quando obbligati o calcolare male la somma) viene punito con la perdita della presa.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALCOLO DEL PUNTEGGIO DETTAGLIATO -->
+    <section id="punteggi" class="max-w-6xl mx-auto px-4 py-6 w-full">
+        <div class="bg-white rounded-xl p-6 sm:p-8 retro-border-thick shadow-retro-lg">
+            
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <span class="bg-giallo-senape text-nero-inchiostro text-xs font-bold uppercase tracking-wider px-3 py-1 rounded retro-border">Guida Completa</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-black text-blu-oltremare mt-2">Calcolo del Punteggio</h2>
+                <p class="text-gray-600 text-sm mt-1">Si gioca fino a raggiungere <strong>71 Punti complessivi</strong> per la vittoria finale.</p>
+            </div>
+
+            <!-- CATEGORIA 1: PUNTI DI MANO E CAPPOTTO -->
+            <div class="mb-10">
+                <div class="flex items-center gap-2 mb-4 border-b-2 border-nero-inchiostro pb-2">
+                    <span class="text-xl">🎖️</span>
+                    <h3 class="font-serif font-bold text-xl text-blu-oltremare">1. Punti di Mano (6 Punti Fissi + Premio Extra 18pt)</h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+                    <div class="bg-perg-bg p-4 rounded-lg retro-border shadow-retro text-center flex flex-col justify-between">
+                        <div class="font-bold text-2xl text-rosso-cremisi mb-1">🗡️ 1 pt</div>
+                        <div class="font-serif font-bold text-sm text-blu-oltremare">2 di Spade</div>
+                        <div class="text-xs text-gray-600 mt-1">Chiamato il "Foraccio"</div>
+                    </div>
+
+                    <div class="bg-perg-bg p-4 rounded-lg retro-border shadow-retro text-center flex flex-col justify-between">
+                        <div class="font-bold text-2xl text-rosso-cremisi mb-1">👵 1 pt</div>
+                        <div class="font-serif font-bold text-sm text-blu-oltremare">Fante di Spade</div>
+                        <div class="text-xs text-gray-600 mt-1">Nello specifico "La Vecchia"</div>
+                    </div>
+
+                    <div class="bg-perg-bg p-4 rounded-lg retro-border shadow-retro text-center flex flex-col justify-between">
+                        <div class="font-bold text-2xl text-rosso-cremisi mb-1">🟡 1 pt</div>
+                        <div class="font-serif font-bold text-sm text-blu-oltremare">10 di Denari</div>
+                        <div class="text-xs text-gray-600 mt-1">Nello specifico "Il 10 Bello"</div>
+                    </div>
+
+                    <div class="bg-perg-bg p-4 rounded-lg retro-border shadow-retro text-center flex flex-col justify-between">
+                        <div class="font-bold text-2xl text-rosso-cremisi mb-1">♠️ 1 pt</div>
+                        <div class="font-serif font-bold text-sm text-blu-oltremare">Spade</div>
+                        <div class="text-xs text-gray-600 mt-1">Almeno 7 spade su 13</div>
+                    </div>
+
+                    <div class="bg-perg-bg p-4 rounded-lg retro-border shadow-retro text-center flex flex-col justify-between">
+                        <div class="font-bold text-2xl text-rosso-cremisi mb-1">📚 2 pt</div>
+                        <div class="font-serif font-bold text-sm text-blu-oltremare">Carte</div>
+                        <div class="text-xs text-gray-600 mt-1">Almeno 27 carte su 52</div>
+                    </div>
+                </div>
+
+                <!-- CAPPOTTO EXTRA BOX -->
+                <div class="bg-giallo-senape p-5 rounded-lg retro-border-thick shadow-retro flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-4xl">👑</span>
+                        <div>
+                            <h4 class="font-serif font-black text-lg text-nero-inchiostro">PREMIO CAPPOTTO: +18 PUNTI EXTRA</h4>
+                            <p class="text-xs sm:text-sm text-nero-inchiostro">Se una sola coppia conquista <strong>tutti e 6 i punti di mano</strong> (2 Spade + Fante Spade + 10 Denari + Spade + Carte), riceve un premio extra di 18 punti, totalizzando <strong>24 Punti di Mano</strong> in un colpo solo!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORIA 2: PUNTI DI GIOCO (SCOPE E NAPOLI) -->
+            <div>
+                <div class="flex items-center gap-2 mb-4 border-b-2 border-nero-inchiostro pb-2">
+                    <span class="text-xl">🔥</span>
+                    <h3 class="font-serif font-bold text-xl text-blu-oltremare">2. Punti di Gioco (Scope e Napoli)</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-perg-bg p-5 rounded-lg retro-border">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-serif font-bold text-lg text-blu-oltremare">Scope Dinamiche</h4>
+                            <span class="bg-rosso-cremisi text-white text-xs font-bold px-2 py-1 rounded retro-border">Da 2 a 13 punti</span>
+                        </div>
+                        <p class="text-sm text-gray-700 leading-relaxed">
+                            A differenza della Scopa classica dove ogni scopa vale 1 punto, nel Foraccio la scopa assegna <strong>tanti punti quanti il valore nominale della carta utilizzata per pulire il tavolo</strong> (es: fare scopa con un Re vale ben 13 punti; con un 5 vale 5 punti). L'Asso non conta come scopa.
+                        </p>
+                    </div>
+
+                    <div class="bg-perg-bg p-5 rounded-lg retro-border">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-serif font-bold text-lg text-blu-oltremare">La Napoli</h4>
+                            <span class="bg-verde-foglia text-white text-xs font-bold px-2 py-1 rounded retro-border">Da 3 a 13 punti</span>
+                        </div>
+                        <p class="text-sm text-gray-700 leading-relaxed">
+                            La sequenza ininterrotta di carte catturate dello stesso seme <strong>partendo dall'Asso</strong> (Asso, 2, 3, 4...). Vale 3 punti se arriva al 3, 4 punti se arriva al 4, fino a 13 punti se si cattura l'intero seme in scala.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- VARIANTI DEL GIOCO -->
+    <section id="varianti" class="max-w-6xl mx-auto px-4 py-6 w-full">
+        <div class="bg-white rounded-xl p-6 sm:p-8 retro-border-thick shadow-retro-lg">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-3xl p-2 bg-giallo-senape rounded retro-border">🃏</span>
+                <div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-black text-blu-oltremare">Variante: Lo Zobelon</h2>
+                    <p class="text-xs sm:text-sm text-gray-600">Una celebre modalità alternativa del Foraccio</p>
+                </div>
+            </div>
+
+            <div class="bg-perg-bg p-5 rounded-lg retro-border text-sm sm:text-base leading-relaxed text-nero-inchiostro">
+                <p class="mb-3">
+                    In alcune zone del Veneto viene giocata la variante dello <strong>"Zobelon"</strong> (o Zobelòn). Questa versione introduce alcune modifiche sostanziali:
+                </p>
+                <ul class="space-y-2 list-disc list-inside font-medium text-gray-800">
+                    <li>Vengono distribuite <strong>12 carte a testa</strong> a inizio mano e <strong>4 carte scoperte in tavola</strong>.</li>
+                    <li>La soglia di vittoria viene innalzata a <strong>121 Punti</strong>.</li>
+                    <li>Il <strong>Re (13)</strong> assume il ruolo di carta Jolly / Pigliatutto universale.</li>
+                    <li>Vengono introdotti i <em>Punti Colore</em> per chi raccoglie combinazioni omogenee di semi.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALCOLATORE INTERATTIVO (COPPIA A vs COPPIA B) -->
+    <section id="calcolatore" class="max-w-6xl mx-auto px-4 py-8 w-full">
+        <div class="bg-blu-oltremare text-white rounded-xl p-6 sm:p-10 retro-border-thick shadow-retro-lg">
+            
+            <div class="text-center mb-8">
+                <span class="bg-giallo-senape text-nero-inchiostro text-xs font-extrabold uppercase tracking-wider px-3 py-1.5 rounded retro-border shadow-retro-sm">Strumento Digitale</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-black text-giallo-senape mt-3">Calcolatore Punteggio Mano</h2>
+                <p class="text-blue-100 text-sm mt-2 max-w-xl mx-auto">Inserisci i dati ottenuti dalle due coppie a fine mano. Il sistema calcolerà automaticamente gli Onori, il Premio Cappotto (24pt) e il Totale!</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- COPPIA A -->
+                <div class="bg-perg-bg text-nero-inchiostro p-5 sm:p-6 rounded-xl retro-border shadow-retro flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b-2 border-nero-inchiostro pb-3 mb-4">
+                            <h3 class="font-serif font-black text-2xl text-blu-oltremare">Coppia A</h3>
+                            <span class="text-xs bg-blu-oltremare text-white px-2.5 py-1 rounded font-bold retro-border">Squadra 1</span>
+                        </div>
+
+                        <!-- Onori Checkboxes -->
+                        <div class="space-y-2.5 mb-5">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-600 block mb-1">Onori di Mano</span>
+                            
+                            <label class="flex items-center justify-between p-2.5 bg-white rounded retro-border cursor-pointer hover:bg-gray-50">
+                                <span class="text-xs sm:text-sm font-bold flex items-center gap-2">🗡️ 2 di Spade (1pt)</span>
+                                <input type="checkbox" id="a-due-spade" class="w-5 h-5 accent-blu-oltremare rounded cursor-pointer" onchange="calcolaEntrambeSquadre('A')">
+                            </label>
+
+                            <label class="flex items-center justify-between p-2.5 bg-white rounded retro-border cursor-pointer hover:bg-gray-50">
+                                <span class="text-xs sm:text-sm font-bold flex items-center gap-2">👵 Fante di Spade (1pt)</span>
+                                <input type="checkbox" id="a-fante-spade" class="w-5 h-5 accent-blu-oltremare rounded cursor-pointer" onchange="calcolaEntrambeSquadre('A')">
+                            </label>
+
+                            <label class="flex items-center justify-between p-2.5 bg-white rounded retro-border cursor-pointer hover:bg-gray-50">
+                                <span class="text-xs sm:text-sm font-bold flex items-center gap-2">🟡 10 di Denari (1pt)</span>
+                                <input type="checkbox" id="a-dieci-denari" class="w-5 h-5 accent-blu-oltremare rounded cursor-pointer" onchange="calcolaEntrambeSquadre('A')">
+                            </label>
+
+                            <label class="flex items-center justify-between p-2.5 bg-white rounded retro-border cursor-pointer hover:bg-gray-50">
+                                <span class="text-xs sm:text-sm font-bold flex items-center gap-2">♠️ Spade ≥ 7 (1pt)</span>
+                                <input type="checkbox" id="a-spade" class="w-5 h-5 accent-blu-oltremare rounded cursor-pointer" onchange="calcolaEntrambeSquadre('A')">
+                            </label>
+
+                            <label class="flex items-center justify-between p-2.5 bg-white rounded retro-border cursor-pointer hover:bg-gray-50">
+                                <span class="text-xs sm:text-sm font-bold flex items-center gap-2">📚 Carte ≥ 27 (2pt)</span>
+                                <input type="checkbox" id="a-carte" class="w-5 h-5 accent-blu-oltremare rounded cursor-pointer" onchange="calcolaEntrambeSquadre('A')">
+                            </label>
+                        </div>
+
+                        <!-- Scope e Napoli Inputs -->
+                        <div class="space-y-3 mb-5 pt-3 border-t border-gray-300">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-600 block">Punti di Gioco Extra</span>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Punti Scope Totali</label>
+                                    <input type="number" id="a-scope" min="0" value="0" class="w-full p-2 bg-white rounded retro-border text-center font-bold text-base" oninput="calcolaEntrambeSquadre('A')">
+                                    <span class="text-[10px] text-gray-500">Somma dei valori carte</span>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Punti Napoli (Scala)</label>
+                                    <input type="number" id="a-napoli" min="0" max="13" value="0" class="w-full p-2 bg-white rounded retro-border text-center font-bold text-base" oninput="calcolaEntrambeSquadre('A')">
+                                    <span class="text-[10px] text-gray-500">Da Asso a N (3-13pt)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Totale Coppia A -->
+                    <div class="bg-giallo-senape p-4 rounded-lg retro-border text-center mt-2">
+                        <div id="a-badge-cappotto" class="hidden mb-2 bg-rosso-cremisi text-white text-xs font-black uppercase tracking-widest px-2 py-1 rounded retro-border shadow-retro-sm">
+                            👑 CAPPOTTO REALIZZATO! (+18pt)
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-nero-inchiostro block">Totale Mano Coppia A</span>
+                        <div class="font-serif font-black text-4xl text-nero-inchiostro mt-1" id="a-totale">0</div>
+                    </div>
+                </div>
+
+                <!-- COPPIA B -->
+                <div class="bg-perg-bg text-nero-inchiostro p-5 sm:p-6 rounded-xl retro-border shadow-retro flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b-2 border-nero-inchiostro pb-3 mb-4">
+                            <h3 class="font-serif font-black text-2xl text-rosso-cremisi">Coppia B</h3>
+                            <span class="text-xs bg-rosso-cremisi text-white px-2.5 py-1 rounded font-bold retro-border">Squadra 2</span>
+                        </div>
+
+                        <!-- Onori Checkboxes -->
+                        <div class="space-y-2.5 mb-5">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-600 block mb-1">Onori di Mano</span>
+                            
+                            <label class="flex items-center justify-between p-2.5 bg-white rounded retro-border cursor-pointer hover:bg-gray-50">
+                                <span class="text-xs sm:text-sm font-bold flex items-center gap-2">🗡️ 2 di Spade (1pt)</span>
+                                <input type="checkbox" id="b-due-spade" class="w-5 h-5 accent-rosso-cremisi rounded cursor-pointer" onchange="calcolaEntrambeSquadre('B')">
+                            </label>
+
+                            <label class="flex items-center justify-between p-2.5 bg-white rounded retro-border cursor-pointer hover:bg-gray-50">
+                                <span class="text-xs sm:text-sm font-bold flex items-center gap-2">👵 Fante di Spade (1pt)</span>
+                                <input type="checkbox" id="b-fante-spade" class="w-5 h-5 accent-rosso-cremisi rounded cursor-pointer" onchange="calcolaEntrambeSquadre('B')">
+                            </label>
+
+                            <label class="flex items-center justify-between p-2.5 bg-white rounded retro-border cursor-pointer hover:bg-gray-50">
+                                <span class="text-xs sm:text-sm font-bold flex items-center gap-2">🟡 10 di Denari (1pt)</span>
+                                <input type="checkbox" id="b-dieci-denari" class="w-5 h-5 accent-rosso-cremisi rounded cursor-pointer" onchange="calcolaEntrambeSquadre('B')">
+                            </label>
+
+                            <label class="flex items-center justify-between p-2.5 bg-white rounded retro-border cursor-pointer hover:bg-gray-50">
+                                <span class="text-xs sm:text-sm font-bold flex items-center gap-2">♠️ Spade ≥ 7 (1pt)</span>
+                                <input type="checkbox" id="b-spade" class="w-5 h-5 accent-rosso-cremisi rounded cursor-pointer" onchange="calcolaEntrambeSquadre('B')">
+                            </label>
+
+                            <label class="flex items-center justify-between p-2.5 bg-white rounded retro-border cursor-pointer hover:bg-gray-50">
+                                <span class="text-xs sm:text-sm font-bold flex items-center gap-2">📚 Carte ≥ 27 (2pt)</span>
+                                <input type="checkbox" id="b-carte" class="w-5 h-5 accent-rosso-cremisi rounded cursor-pointer" onchange="calcolaEntrambeSquadre('B')">
+                            </label>
+                        </div>
+
+                        <!-- Scope e Napoli Inputs -->
+                        <div class="space-y-3 mb-5 pt-3 border-t border-gray-300">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-600 block">Punti di Gioco Extra</span>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Punti Scope Totali</label>
+                                    <input type="number" id="b-scope" min="0" value="0" class="w-full p-2 bg-white rounded retro-border text-center font-bold text-base" oninput="calcolaEntrambeSquadre('B')">
+                                    <span class="text-[10px] text-gray-500">Somma dei valori carte</span>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Punti Napoli (Scala)</label>
+                                    <input type="number" id="b-napoli" min="0" max="13" value="0" class="w-full p-2 bg-white rounded retro-border text-center font-bold text-base" oninput="calcolaEntrambeSquadre('B')">
+                                    <span class="text-[10px] text-gray-500">Da Asso a N (3-13pt)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Totale Coppia B -->
+                    <div class="bg-giallo-senape p-4 rounded-lg retro-border text-center mt-2">
+                        <div id="b-badge-cappotto" class="hidden mb-2 bg-rosso-cremisi text-white text-xs font-black uppercase tracking-widest px-2 py-1 rounded retro-border shadow-retro-sm">
+                            👑 CAPPOTTO REALIZZATO! (+18pt)
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-nero-inchiostro block">Totale Mano Coppia B</span>
+                        <div class="font-serif font-black text-4xl text-nero-inchiostro mt-1" id="b-totale">0</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RESET BUTTON -->
+            <div class="text-center mt-8">
+                <button onclick="resetCalcolatore()" class="bg-white text-nero-inchiostro font-bold text-sm px-6 py-2.5 rounded-lg retro-border shadow-retro hover:bg-giallo-senape transition">
+                    🔄 Azzera Calcolatore Mano
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-nero-inchiostro text-perg-bg retro-border-thick border-b-0 border-x-0 mt-12 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h3 class="font-serif font-black text-2xl text-giallo-senape mb-2">IL GIOCO DEL FORACCIO</h3>
+            <p class="text-xs text-gray-400 max-w-lg mx-auto mb-4">
+                Sito informativo e guida al regolamento del tradizionale gioco di carte trevisano/veneto. Basato sulla documentazione storica.
+            </p>
+            <div class="text-[11px] text-gray-500">
+                Palette Colori Tradizionale • Avorio, Blu Oltremare, Rosso Cremisi, Giallo Senape, Verde Foglia & Nero Inchiostro.
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        /**
+         * Logica del Calcolatore Punteggi del Foraccio
+         * Rispetta l'esclusività reciproca degli onori unici e calcola il premio Cappotto (18pt extra).
+         */
+        function calcolaEntrambeSquadre(squadraModificata) {
+            const opposta = squadraModificata === 'A' ? 'B' : 'A';
+            
+            // Gestione esclusione reciproca per gli onori univoci
+            const onoriEsclusivi = ['due-spade', 'fante-spade', 'dieci-denari', 'spade', 'carte'];
+            
+            onoriEsclusivi.forEach(onore => {
+                const checkModificato = document.getElementById(`${squadraModificata.toLowerCase()}-${onore}`);
+                const checkOpposto = document.getElementById(`${opposta.toLowerCase()}-${onore}`);
+                
+                if (checkModificato && checkModificato.checked && checkOpposto) {
+                    checkOpposto.checked = false;
+                }
+            });
+
+            // Calcola i punteggi reali di entrambe le squadre
+            calcolaSquadra('A');
+            calcolaSquadra('B');
+        }
+
+        function calcolaSquadra(sq) {
+            const p = sq.toLowerCase();
+            
+            // Checkbox onori
+            const dueSpade = document.getElementById(`${p}-due-spade`).checked ? 1 : 0;
+            const fanteSpade = document.getElementById(`${p}-fante-spade`).checked ? 1 : 0;
+            const dieciDenari = document.getElementById(`${p}-dieci-denari`).checked ? 1 : 0;
+            const spade = document.getElementById(`${p}-spade`).checked ? 1 : 0;
+            const carte = document.getElementById(`${p}-carte`).checked ? 2 : 0; // Le carte valgono 2pt!
+
+            // Conteggio punti di mano base (max 6)
+            const puntiManoBase = dueSpade + fanteSpade + dieciDenari + spade + carte;
+
+            // Verifica Cappotto: Tutti e 6 i punti di mano conquistati da una sola squadra
+            let bonusCappotto = 0;
+            const badgeCappotto = document.getElementById(`${p}-badge-cappotto`);
+            
+            if (puntiManoBase === 6) {
+                bonusCappotto = 18; // 6 base + 18 extra = 24 totale mano
+                badgeCappotto.classList.remove('hidden');
+            } else {
+                badgeCappotto.classList.add('hidden');
+            }
+
+            // Punti extra (Scope e Napoli)
+            const scopeVal = parseInt(document.getElementById(`${p}-scope`).value) || 0;
+            const napoliVal = parseInt(document.getElementById(`${p}-napoli`).value) || 0;
+
+            // Calcolo totale
+            const totaleMano = puntiManoBase + bonusCappotto + scopeVal + napoliVal;
+
+            // Aggiornamento DOM
+            document.getElementById(`${p}-totale`).innerText = totaleMano;
+        }
+
+        function resetCalcolatore() {
+            ['a', 'b'].forEach(p => {
+                document.getElementById(`${p}-due-spade`).checked = false;
+                document.getElementById(`${p}-fante-spade`).checked = false;
+                document.getElementById(`${p}-dieci-denari`).checked = false;
+                document.getElementById(`${p}-spade`).checked = false;
+                document.getElementById(`${p}-carte`).checked = false;
+                document.getElementById(`${p}-scope`).value = 0;
+                document.getElementById(`${p}-napoli`).value = 0;
+                document.getElementById(`${p}-badge-cappotto`).classList.add('hidden');
+                document.getElementById(`${p}-totale`).innerText = '0';
+            });
+        }
+    </script>
+</body>
+</html>
